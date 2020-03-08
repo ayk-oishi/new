@@ -1,0 +1,35 @@
+import numpy as np
+import pandas as pd
+from pathlib import Path
+import os
+df = pd.read_csv('../Data/1997-01-01-2020-03-31.csv')
+df = df.sort_values(by="year", axis=0, ascending=True, inplace=False)
+Known_actors= {}
+New_actors = {}
+Year = 1997
+for index, row in df.iterrows():
+    if row["year"] != Year:
+        print(f"{Year} has new actors {New_actors}")
+        print("---------------------------------------------")
+        New_actors.clear()
+        Year = row["year"]
+        
+    if row["country"] not in New_actors:
+        New_actors[row["country"]] = list()
+        New_actors[row["country"]]
+        
+    if row["country"] not in Known_actors:
+        New_actors[row["country"]].append(row["actor1"])
+        New_actors[row["country"]].append(row["actor2"])
+        Known_actors[row["country"]] = set()
+        
+    else:
+        if row["actor1"] not in Known_actors[row["country"]]:
+                New_actors[row["country"]].append(row["actor1"])
+        if row["actor2"] not in Known_actors[row["country"]]:
+                New_actors[row["country"]].append(row["actor2"])
+            
+        Known_actors[row["country"]].add(row["actor1"])
+        Known_actors[row["country"]].add(row["actor2"])
+    
+print(f"{Year} has new actors {New_actors}")
